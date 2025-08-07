@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>iLuxury | Kontak Kami</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="Contact.html" />
+  <link rel="stylesheet" href="contact-style.css" />
 </head>
 <body>  
 
@@ -26,10 +26,10 @@
       <p>Kami siap membantu Anda. Jangan ragu untuk mengirimkan pertanyaan, masukan, atau permintaan khusus mengenai produk iPhone premium kami.</p>
     </div>
 
-    <form class="contact-form">
-      <input type="text" placeholder="Nama Anda" required />
-      <input type="email" placeholder="Email Anda" required />
-      <textarea rows="5" placeholder="Pesan Anda..." required></textarea>
+    <form class="contact-form" id="contact-form">
+      <input type="text" id="nama" placeholder="Nama Anda" required />
+      <input type="email" id="email" placeholder="Email Anda" required />
+      <textarea rows="5" id="pesan" placeholder="Pesan Anda..." required></textarea>
       <button type="submit">Kirim Pesan</button>
     </form>
   </section>
@@ -37,6 +37,35 @@
   <footer>
     &copy; 2025 iLuxury. Semua Hak Dilindungi.
   </footer>
+
+  <!-- Tambahkan JS di akhir sebelum tag </body> -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const form = document.getElementById('contact-form');
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const nama = document.getElementById('nama').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const pesan = document.getElementById('pesan').value.trim();
+
+        if (!nama || !email || !pesan) {
+          alert("Mohon lengkapi semua kolom sebelum mengirim.");
+          return;
+        }
+
+        const nomorWA = "6281215235064"; // Ganti dengan nomormu
+        const text = `*Pesan Baru dari Form Kontak iLuxury*%0A%0A` +
+                     `*Nama:* ${nama}%0A` +
+                     `*Email:* ${email}%0A` +
+                     `*Pesan:* ${pesan}`;
+
+        const waURL = `https://wa.me/${nomorWA}?text=${text}`;
+        window.open(waURL, '_blank');
+      });
+    });
+  </script>
 
 </body>
 </html>
