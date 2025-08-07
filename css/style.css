@@ -33,6 +33,31 @@ body {
     border-bottom: 1px solid rgba(138, 43, 226, 0.3);
     transition: all 0.3s ease;
 }
+
+.navbar {
+    /* Pastikan navbar selalu di atas elemen lain */
+    z-index: 1000;
+    /* Pastikan pointer events selalu aktif */
+    pointer-events: auto !important;
+}
+
+/* Pastikan tidak ada overlay yang memblokir navbar */
+.navbar::before {
+    display: none !important;
+}
+
+.navbar {
+    /* Pastikan navbar selalu di atas elemen lain */
+    z-index: 1000;
+    /* Pastikan pointer events selalu aktif */
+    pointer-events: auto !important;
+}
+
+/* Pastikan tidak ada overlay yang memblokir navbar */
+.navbar::before {
+    display: none !important;
+}
+
 .apple-logo {
     font-size: 2rem;
     color: var(--neon-accent);
@@ -695,4 +720,130 @@ body {
 
 .pulse {
     animation: pulse 2s infinite;
+}
+
+/* Burger Menu Styles */
+.burger-menu {
+    display: none;
+    cursor: pointer;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 21px;
+    z-index: 1001;
+}
+
+.burger-menu span {
+    display: block;
+    height: 3px;
+    width: 100%;
+    background-color: var(--platinum);
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}
+
+.burger-menu.active span:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+}
+
+.burger-menu.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.burger-menu.active span:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+}
+
+/* Mobile Menu */
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 80%;
+    max-width: 300px;
+    height: 100vh;
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 6rem 2rem 2rem;
+    transition: all 0.5s ease;
+    z-index: 1000;
+    border-left: 1px solid rgba(138, 43, 226, 0.3);
+}
+
+.mobile-menu.active {
+    right: 0;
+}
+
+.mobile-links {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.mobile-links a {
+    color: var(--platinum);
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.mobile-links a:hover {
+    color: var(--neon-accent);
+}
+
+.mobile-links a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -5px;
+    left: 0;
+    background: linear-gradient(90deg, var(--neon-accent), var(--electric-blue));
+    transition: width 0.3s ease;
+}
+
+.mobile-links a:hover::after {
+    width: 100%;
+}
+
+.mobile-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    justify-content: center;
+}
+
+.mobile-actions i {
+    font-size: 1.5rem;
+    color: var(--platinum);
+    transition: all 0.3s ease;
+}
+
+.mobile-actions i:hover {
+    color: var(--neon-accent);
+    transform: translateY(-3px);
+}
+
+/* Update existing media query */
+@media (min-width: 769px) {
+    .burger-menu {
+        display: none;
+    }
+    .nav-links {
+        display: flex !important; /* Pastikan nav-links tetap tampil di desktop */
+    }
+    .mobile-menu {
+        display: none !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+    .burger-menu {
+        display: flex;
+    }
 }

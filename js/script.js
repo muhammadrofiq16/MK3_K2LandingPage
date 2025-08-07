@@ -10,14 +10,17 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
 // Navbar scroll effect
+// Navbar scroll effect - Perbaikan
 window.addEventListener('scroll', function () {
     const navbar = document.querySelector('.navbar');
     if (window.scrollY > 50) {
         navbar.style.padding = '1rem 5%';
         navbar.style.background = 'rgba(10, 10, 10, 0.95)';
+        navbar.style.backdropFilter = 'blur(10px)';
     } else {
         navbar.style.padding = '1.5rem 5%';
         navbar.style.background = 'rgba(10, 10, 10, 0.8)';
+        navbar.style.backdropFilter = 'blur(10px)';
     }
 });
 
@@ -45,7 +48,7 @@ function showTestimonial(index) {
     });
 }
 
-// Initialize
+// Initialize testimonial slider
 showTestimonial(currentTestimonial);
 
 // Auto-rotate testimonials
@@ -54,16 +57,74 @@ setInterval(() => {
     showTestimonial(currentTestimonial);
 }, 5000);
 
-// Add click event to product buttons
+// Product buttons functionality
 document.querySelectorAll('.product-actions button').forEach(button => {
     button.addEventListener('click', function () {
         const productName = this.closest('.product-card').querySelector('h3').textContent;
 
         if (this.classList.contains('buy-now')) {
             alert(`Added ${productName} to your cart!`);
-            window.location.href = 'checkout.html'; // Redirect to cart page
+            // Redirect to cart page
+            if (this.querySelector('a')) {
+                window.location.href = this.querySelector('a').getAttribute('href');
+            }
         } else {
             alert(`Showing details for ${productName}`);
         }
     });
+});
+
+// Burger menu functionality
+const burgerMenu = document.querySelector('.burger-menu');
+const mobileMenu = document.querySelector('.mobile-menu');
+const body = document.body;
+
+burgerMenu.addEventListener('click', function() {
+    this.classList.toggle('active');
+    mobileMenu.classList.toggle('active');
+    body.classList.toggle('menu-open');
+    
+    // Fungsi untuk menangani resize window
+function handleResize() {
+    if (window.innerWidth > 768) {
+        // Reset semua state menu saat kembali ke desktop
+        burgerMenu.classList.remove('active');
+        mobileMenu.classList.remove('active');
+        body.classList.remove('menu-open');
+        body.style.overflow = '';
+    }
+}
+
+// Tambahkan event listener untuk resize
+window.addEventListener('resize', handleResize);
+});
+
+// Close menu when clicking on a link
+document.querySelectorAll('.mobile-links a').forEach(link => {
+    link.addEventListener('click', function() {
+        burgerMenu.classList.remove('active');
+        mobileMenu.classList.remove('active');
+        body.classList.remove('menu-open');
+        body.style.overflow = '';
+    });
+});
+
+// Close menu when clicking outside
+document.addEventListener('click', function(e) {
+    if (!mobileMenu.contains(e.target) && !burgerMenu.contains(e.target) && mobileMenu.classList.contains('active')) {
+        burgerMenu.classList.remove('active');
+        mobileMenu.classList.remove('active');
+        body.classList.remove('menu-open');
+        body.style.overflow = '';
+    }
+});
+
+// Close menu on escape key press
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
+        burgerMenu.classList.remove('active');
+        mobileMenu.classList.remove('active');
+        body.classList.remove('menu-open');
+        body.style.overflow = '';
+    }
 });
