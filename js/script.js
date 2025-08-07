@@ -64,10 +64,7 @@ document.querySelectorAll('.product-actions button').forEach(button => {
 
         if (this.classList.contains('buy-now')) {
             alert(`Added ${productName} to your cart!`);
-            // Redirect to cart page
-            if (this.querySelector('a')) {
-                window.location.href = this.querySelector('a').getAttribute('href');
-            }
+                window.location = 'checkout.html';
         } else {
             alert(`Showing details for ${productName}`);
         }
