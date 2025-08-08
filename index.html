@@ -27,11 +27,32 @@
             <a href="Contact.html">Contact</a>
             <a href="#contact">Footer</a>
         </div>
-        <div class="nav-actions">
-            <i class="fas fa-search"></i>
-            <i class="fas fa-user"></i>
-            <i class="fas fa-shopping-bag"></i>
+        <!-- Di dalam navbar, ganti bagian nav-actions dengan ini -->
+<div class="nav-actions">
+    <i class="fas fa-search"></i>
+    <i class="fas fa-user"></i>
+    <div class="cart-icon-container">
+        <i class="fas fa-shopping-bag"></i>
+        <span class="cart-count">0</span>
+        <div class="cart-popup">
+            <div class="cart-popup-header">
+                <h4>Keranjang Belanja</h4>
+                <i class="fas fa-times close-cart"></i>
+            </div>
+            <div class="cart-items">
+                <!-- Item keranjang akan ditambahkan di sini secara dinamis -->
+                <p class="empty-cart-message">Keranjang belanja kosong</p>
+            </div>
+            <div class="cart-popup-footer">
+                <div class="cart-total">
+                    <span>Total:</span>
+                    <span class="total-price">$0</span>
+                </div>
+                <button class="checkout-btn">Checkout</button>
+            </div>
         </div>
+    </div>
+</div>
         
     <div class="mobile-menu">
     <div class="mobile-links">
@@ -69,89 +90,194 @@
                 manfaat eksklusif.
             </p>
         </div>
+
+    <!-- Produk Terlaris -->
+    <section class="best-sellers" id="gallery">
+        <h2>Produk Terlaris</h2>
         <div class="products-grid">
-            <!-- Product 1 -->
+            <!-- Produk 1 -->
             <div class="product-card">
-                <div class="product-badge">New</div>
-                <div class="product-image">
-                    <img src="foto/iphone-15-pro-max-harga-5.jpg" alt="iPhone 15 Pro">
-                </div>
+                <img src="https://via.placeholder.com/300x200.png?text=iPhone+13" alt="iPhone 13" class="product-image">
                 <div class="product-info">
-                    <h3>iPhone 15 Pro Max</h3>
-                    <div class="price">$1,099</div>
-                    <div class="specs">
-                        <span>6.7" Super Retina XDR</span>
-                        <span>A17 Pro Chip</span>
-                        <span>48MP Camera</span>
-                    </div>
-                    <div class="product-actions">
-                        <button class="buy-now" a href="checkout.html">Buy Now</button>
-                        <button class="details">Details</button>
-                    </div>
+                    <h3 class="product-title">iPhone 13 128GB</h3>
+                    <p class="product-description">Kondisi 95% seperti baru, baterai kesehatan 98%, fullset dengan box dan aksesoris.</p>
+                    <span class="product-grade grade-a">Grade A</span>
+                    <p class="product-price">Rp 8.999.000</p>
                 </div>
             </div>
-
-            <!-- Product 2 -->
+            
+            <!-- Produk 2 -->
             <div class="product-card">
-                <div class="product-badge">Best Seller</div>
-                <div class="product-image">
-                    <img src="foto/iphone 15 pro.jpg" alt="iPhone 15">
-                </div>
+                <img src="https://via.placeholder.com/300x200.png?text=iPhone+12+Pro" alt="iPhone 12 Pro" class="product-image">
                 <div class="product-info">
-                    <h3>iPhone 15 Pro</h3>
-                    <div class="price">$999</div>
-                    <div class="specs">
-                        <span>6.1" Super Retina XDR</span>
-                        <span>A17 Pro Chip</span>
-                        <span>Triple Camera</span>
-                    </div>
-                    <div class="product-actions">
-                        <button class="buy-now">Buy Now</button>
-                        <button class="details">Details</button>
-                    </div>
+                    <h3 class="product-title">iPhone 12 Pro 256GB</h3>
+                    <p class="product-description">Kondisi 90% seperti baru, baterai kesehatan 92%, unit only (tanpa box).</p>
+                    <span class="product-grade grade-b">Grade B</span>
+                    <p class="product-price">Rp 7.499.000</p>
                 </div>
             </div>
-
-            <!-- Product 3 -->
+            
+            <!-- Produk 3 -->
             <div class="product-card">
-                <div class="product-image">
-                    <img src="foto/iphone-15-plus.jpg" alt="iPhone 15">
-                </div>
+                <img src="https://via.placeholder.com/300x200.png?text=iPhone+11" alt="iPhone 11" class="product-image">
                 <div class="product-info">
-                    <h3>iPhone 15 Plus</h3>
-                    <div class="price">$899</div>
-                    <div class="specs">
-                        <span>6.7" Super Retina XDR</span>
-                        <span>A16 Bionic</span>
-                        <span>Dual Camera</span>
-                    </div>
-                    <div class="product-actions">
-                        <button class="buy-now">Buy Now</button>
-                        <button class="details">Details</button>
-                    </div>
+                    <h3 class="product-title">iPhone 11 64GB</h3>
+                    <p class="product-description">Kondisi 85% seperti baru, baterai kesehatan 86%, fullset dengan box.</p>
+                    <span class="product-grade grade-b">Grade B</span>
+                    <p class="product-price">Rp 5.499.000</p>
                 </div>
             </div>
-
-            <!-- Product 4 -->
+            
+            <!-- Produk 4 -->
             <div class="product-card">
-                <div class="product-image">
-                    <img src="foto/iphone-15-.jpg" alt="iPhone 15">
-                </div>
+                <img src="https://via.placeholder.com/300x200.png?text=iPhone+X" alt="iPhone X" class="product-image">
                 <div class="product-info">
-                    <h3>iPhone 15 Plus</h3>
-                    <div class="price">$899</div>
-                    <div class="specs">
-                        <span>6.3" Super Retina XDR</span>
-                        <span>A16 Bionic</span>
-                        <span>Dual Camera</span>
-                    </div>
-                    <div class="product-actions">
-                        <button class="buy-now">Buy Now</button>
-                        <button class="details">Details</button>
-                    </div>
+                    <h3 class="product-title">iPhone X 256GB</h3>
+                    <p class="product-description">Kondisi 80%, baterai kesehatan 82%, unit only, layar sudah diganti original.</p>
+                    <span class="product-grade grade-c">Grade C</span>
+                    <p class="product-price">Rp 3.999.000</p>
+                </div>
+            </div>
+            
+            <!-- Produk 5 -->
+            <div class="product-card">
+                <img src="https://via.placeholder.com/300x200.png?text=iPhone+14+Pro" alt="iPhone 14 Pro" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">iPhone 14 Pro 128GB</h3>
+                    <p class="product-description">Kondisi 98% seperti baru, baterai kesehatan 100%, fullset dengan box.</p>
+                    <span class="product-grade grade-a">Grade A</span>
+                    <p class="product-price">Rp 14.999.000</p>
+                </div>
+            </div>
+            
+            <!-- Produk 6 -->
+            <div class="product-card">
+                <img src="https://via.placeholder.com/300x200.png?text=iPhone+SE" alt="iPhone SE" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">iPhone SE 2020 64GB</h3>
+                    <p class="product-description">Kondisi 88% seperti baru, baterai kesehatan 90%, unit only.</p>
+                    <span class="product-grade grade-b">Grade B</span>
+                    <p class="product-price">Rp 3.499.000</p>
                 </div>
             </div>
         </div>
+    </section>
+
+    <!-- Semua Produk -->
+    <section class="all-products">
+        <h2>Semua Produk</h2>
+        <div class="products-grid" id="all-products-grid">
+            <!-- Produk 1 -->
+           <!-- Contoh pada salah satu product card, lakukan hal yang sama untuk semua product card -->
+<div class="product-card">
+    <img src="https://via.placeholder.com/300x200.png?text=iPhone+13" alt="iPhone 13" class="product-image">
+    <div class="product-info">
+        <h3 class="product-title">iPhone 13 128GB</h3>
+        <p class="product-description">Kondisi 95% seperti baru, baterai kesehatan 98%, fullset dengan box dan aksesoris.</p>
+        <span class="product-grade grade-a">Grade A</span>
+        <p class="product-price">Rp 8.999.000</p>
+        <div class="product-actions">
+            <button class="add-to-cart">Add to Cart</button>
+            <button class="buy-now">Buy Now</button>
+        </div>
+    </div>
+</div>
+            
+            <!-- Produk 2 -->
+            <div class="product-card">
+                <img src="https://via.placeholder.com/300x200.png?text=iPhone+12" alt="iPhone 12" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">iPhone 12 64GB</h3>
+                    <p class="product-description">Kondisi 85% seperti baru, baterai kesehatan 88%, unit only.</p>
+                    <span class="product-grade grade-b">Grade B</span>
+                    <p class="product-price">Rp 6.499.000</p>
+                </div>
+            </div>
+            
+            <!-- Produk 3 -->
+            <div class="product-card">
+                <img src="https://via.placeholder.com/300x200.png?text=iPhone+XR" alt="iPhone XR" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">iPhone XR 128GB</h3>
+                    <p class="product-description">Kondisi 82% seperti baru, baterai kesehatan 85%, unit only.</p>
+                    <span class="product-grade grade-b">Grade B</span>
+                    <p class="product-price">Rp 4.499.000</p>
+                </div>
+            </div>
+            
+            <!-- Produk 4 -->
+            <div class="product-card">
+                <img src="https://via.placeholder.com/300x200.png?text=iPhone+8+Plus" alt="iPhone 8 Plus" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">iPhone 8 Plus 64GB</h3>
+                    <p class="product-description">Kondisi 78%, baterai kesehatan 80%, unit only, layar original.</p>
+                    <span class="product-grade grade-c">Grade C</span>
+                    <p class="product-price">Rp 3.299.000</p>
+                </div>
+            </div>
+            
+            <!-- Produk 5 -->
+            <div class="product-card">
+                <img src="https://via.placeholder.com/300x200.png?text=iPhone+14" alt="iPhone 14" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">iPhone 14 128GB</h3>
+                    <p class="product-description">Kondisi 96% seperti baru, baterai kesehatan 99%, fullset dengan box.</p>
+                    <span class="product-grade grade-a">Grade A</span>
+                    <p class="product-price">Rp 11.999.000</p>
+                </div>
+            </div>
+            
+            <!-- Produk 6 -->
+            <div class="product-card">
+                <img src="https://via.placeholder.com/300x200.png?text=iPhone+7" alt="iPhone 7" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">iPhone 7 32GB</h3>
+                    <p class="product-description">Kondisi 75%, baterai kesehatan 78%, unit only, kondisi fisik ada baret kecil.</p>
+                    <span class="product-grade grade-c">Grade C</span>
+                    <p class="product-price">Rp 2.199.000</p>
+                </div>
+            </div>
+            
+            <!-- Produk 7 -->
+            <div class="product-card">
+                <img src="https://via.placeholder.com/300x200.png?text=iPhone+12+mini" alt="iPhone 12 mini" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">iPhone 12 mini 128GB</h3>
+                    <p class="product-description">Kondisi 87% seperti baru, baterai kesehatan 90%, fullset dengan box.</p>
+                    <span class="product-grade grade-b">Grade B</span>
+                    <p class="product-price">Rp 6.999.000</p>
+                </div>
+            </div>
+            
+            <!-- Produk 8 -->
+            <div class="product-card">
+                <img src="https://via.placeholder.com/300x200.png?text=iPhone+11+Pro" alt="iPhone 11 Pro" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">iPhone 11 Pro 64GB</h3>
+                    <p class="product-description">Kondisi 88% seperti baru, baterai kesehatan 91%, unit only.</p>
+                    <span class="product-grade grade-b">Grade B</span>
+                    <p class="product-price">Rp 7.499.000</p>
+                </div>
+            </div>
+            
+            <!-- Produk 9 -->
+            <div class="product-card">
+                <img src="https://via.placeholder.com/300x200.png?text=iPhone+XS" alt="iPhone XS" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">iPhone XS 256GB</h3>
+                    <p class="product-description">Kondisi 83% seperti baru, baterai kesehatan 87%, unit only.</p>
+                    <span class="product-grade grade-b">Grade B</span>
+                    <p class="product-price">Rp 5.499.000</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="see-all-container">
+            <button class="see-all-btn" id="see-all-btn">See All</button>
+        </div>
+    </section>
+</body>
+</html>
     </section>
 
     <!-- Features Section -->
@@ -323,6 +449,7 @@
     </footer>
 
     <script src="js/script.js"></script>
+    <script src="js/product.js"></script>
 </body>
 
 </html>

@@ -125,3 +125,229 @@ document.addEventListener('keydown', function(e) {
         body.style.overflow = '';
     }
 });
+
+// Tambahkan di script.js setelah kode yang ada
+class ShoppingCart {
+    constructor() {
+        this.cart = [];
+        this.cartIcon = document.querySelector('.fa-shopping-bag');
+        this.cartCount = document.querySelector('.cart-count');
+        this.cartPopup = document.querySelector('.cart-popup');
+        this.cartItemsContainer = document.querySelector('.cart-items');
+        this.totalPriceElement = document.querySelector('.total-price');
+        
+        this.init();
+    }
+    
+    init() {
+        // Toggle cart popup
+        this.cartIcon.closest('.cart-icon-container').addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.cartPopup.classList.toggle('active');
+        });
+        
+        // Close cart when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.cart-icon-container') && !e.target.closest('.cart-popup')) {
+                this.cartPopup.classList.remove('active');
+            }
+        });
+        
+        // Close button
+        document.querySelector('.close-cart').addEventListener('click', () => {
+            this.cartPopup.classList.remove('active');
+        });
+        
+        // Load cart from localStorage
+        this.loadCart();
+    }
+    
+    addItem(product) {
+        const existingItem = this.cart.find(item => item.id === product.id);
+        
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            this.cart.push({
+                ...product,
+                quantity: 1
+            });
+        }
+        
+        this.saveCart();
+        this.updateCartUI();
+    }
+    
+    removeItem(productId) {
+        this.cart = this.cart.filter(item => item.id !== productId);
+        this.saveCart();
+        this.updateCartUI();
+    }
+    
+    saveCart() {
+        localStorage.setItem('shoppingCart', JSON.stringify(this.cart));
+    }
+    
+    loadCart() {
+        const savedCart = localStorage.getItem('shoppingCart');
+        if (savedCart) {
+            this.cart = JSON.parse(savedCart);
+            this.updateCartUI();
+        }
+    }
+    
+    updateCartUI() {
+        // Update count
+        const totalItems = this.cart.reduce((total, item) => total + item.quantity, 0);
+        this.cartCount.textContent = totalItems;
+        
+        // Update cart items
+        this.cartItemsContainer.innerHTML = '';
+        
+        if (this.cart.length === 0) {
+            this.cartItemsContainer.innerHTML = '<p class="empty-cart-message">Keranjang belanja kosong</p>';
+            this.totalPriceElement.textContent = '$0';
+            return;
+        }
+        
+        let totalPrice = 0;
+        
+        this.cart.forEach(item => {
+            totalPrice += parseFloat(item.price.replace('$', '')) * item.quantity;
+            
+            const cartItemElement = document.createElement('div');
+            cartItemElement.className = 'cart-item';
+            cartItemElement.innerHTML = `
+                <img src="${item.image}" alt="${item.name}" class="cart-item-img">
+                <div class="cart-item-info">
+                    <div class="cart-item-title">${item.name}</div>
+                    <div class="cart-item-price">${item.price} × ${item.quantity}</div>
+                </div>
+                <i class="fas fa-times remove-item" data-id="${item.id}"></i>
+            `;
+            
+            this.cartItemsContainer.appendChild(cartItemElement);
+        });
+        
+        // Update total price
+        this.totalPriceElement.textContent = `$${totalPrice.toFixed(2)}`;
+        
+        // Add event listeners to remove buttons
+        function addProductButtonEventListeners() {
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('add-to-cart') || e.target.classList.contains('buy-now')) {
+            const button = e.target;
+            const productCard = button.closest('.product-card');
+            const productName = productCard.querySelector('.product-title').textContent;
+            const productPrice = productCard.querySelector('.product-price').textContent;
+            const productImage = productCard.querySelector('.product-image').src;
+            const productId = productName.toLowerCase().replace(/\s+/g, '-');
+            
+            // Tambahkan ke keranjang
+            cart.addItem({
+                id: productId,
+                name: productName,
+                price: productPrice,
+                image: productImage
+            });
+            
+            // Tampilkan notifikasi
+            showNotification(`${productName} ditambahkan ke keranjang`);
+            
+            // Buka keranjang otomatis setelah menambahkan produk
+            document.querySelector('.cart-popup').classList.add('active');
+            
+            // Jika tombol Buy Now, arahkan ke checkout
+            if (button.classList.contains('buy-now')) {
+                setTimeout(() => {
+                    window.location.href = 'checkout.html';
+                }, 1000); // Beri jeda 1 detik sebelum redirect
+            }
+        }
+    });
+}
+    }
+    getCart() {
+        return this.cart;
+    }
+}
+// Tutup keranjang saat klik di luar
+document.addEventListener('click', function(e) {
+    const cartPopup = document.querySelector('.cart-popup');
+    const cartIcon = document.querySelector('.cart-icon-container');
+    
+    if (cartPopup.classList.contains('active') && 
+        !cartPopup.contains(e.target) && 
+        !cartIcon.contains(e.target)) {
+        cartPopup.classList.remove('active');
+    }
+});
+
+// Initialize shopping cart
+const cart = new ShoppingCart();
+
+// Update product buttons functionality to add to cart
+document.querySelectorAll('.product-actions button').forEach(button => {
+    button.addEventListener('click', function() {
+        const productCard = this.closest('.product-card');
+        const productName = productCard.querySelector('h3').textContent;
+        const productPrice = productCard.querySelector('.price').textContent;
+        const productImage = productCard.querySelector('.product-image img').src;
+        const productId = productName.toLowerCase().replace(/\s+/g, '-');
+        
+        if (this.classList.contains('buy-now')) {
+            // Add to cart
+            cart.addItem({
+                id: productId,
+                name: productName,
+                price: productPrice,
+                image: productImage
+            });
+            
+            // Show cart popup
+            document.querySelector('.cart-popup').classList.add('active');
+            
+            // Optional: Show notification
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.textContent = `${productName} ditambahkan ke keranjang`;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 10);
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        } else {
+            alert(`Showing details for ${productName}`);
+        }
+    });
+});
+
+// Add notification styles
+const style = document.createElement('style');
+style.textContent = `
+    .notification {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(138, 43, 226, 0.9);
+        color: white;
+        padding: 1rem 2rem;
+        border-radius: 5px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: 10000;
+    }
+    
+    .notification.show {
+        opacity: 1;
+    }
+`;
+document.head.appendChild(style);
