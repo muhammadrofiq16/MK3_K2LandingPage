@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,15 +8,17 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/contact.css" />
 </head>
-<body>  
+
+<body>
 
   <header>
     <div class="logo">iLuxury</div>
     <nav>
-      <a href="#">Home</a>
+      <a href="index.html">Home</a>
       <a href="#">Products</a>
       <a href="#">Features</a>
       <a href="#">Testimonials</a>
+      <a href="#">Contact</a>
       <a href="#">Contact</a>
     </nav>
   </header>
@@ -23,7 +26,8 @@
   <section class="contact-container">
     <div class="contact-text">
       <h1>Hubungi Kami</h1>
-      <p>Kami siap membantu Anda. Jangan ragu untuk mengirimkan pertanyaan, masukan, atau permintaan khusus mengenai produk iPhone premium kami.</p>
+      <p>Kami siap membantu Anda. Jangan ragu untuk mengirimkan pertanyaan, masukan, atau permintaan khusus mengenai
+        produk iPhone premium kami.</p>
     </div>
 
     <form class="contact-form" id="contact-form">
@@ -57,9 +61,9 @@
 
         const nomorWA = "6281215235064"; // Ganti dengan nomormu
         const text = `*Pesan Baru dari Form Kontak iLuxury*%0A%0A` +
-                     `*Nama:* ${nama}%0A` +
-                     `*Email:* ${email}%0A` +
-                     `*Pesan:* ${pesan}`;
+          `*Nama:* ${nama}%0A` +
+          `*Email:* ${email}%0A` +
+          `*Pesan:* ${pesan}`;
 
         const waURL = `https://wa.me/${nomorWA}?text=${text}`;
         window.open(waURL, '_blank');
@@ -68,4 +72,5 @@
   </script>
 
 </body>
+
 </html>
