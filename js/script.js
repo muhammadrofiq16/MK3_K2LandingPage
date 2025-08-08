@@ -10,7 +10,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
 // Navbar scroll effect
-// Navbar scroll effect - Perbaikan
 window.addEventListener('scroll', function () {
     const navbar = document.querySelector('.navbar');
     if (window.scrollY > 50) {
@@ -57,20 +56,6 @@ setInterval(() => {
     showTestimonial(currentTestimonial);
 }, 5000);
 
-// Product buttons functionality
-document.querySelectorAll('.product-actions button').forEach(button => {
-    button.addEventListener('click', function () {
-        const productName = this.closest('.product-card').querySelector('h3').textContent;
-
-        if (this.classList.contains('buy-now')) {
-            alert(`Added ${productName} to your cart!`);
-                window.location = 'checkout.html';
-        } else {
-            alert(`Showing details for ${productName}`);
-        }
-    });
-});
-
 // Burger menu functionality
 const burgerMenu = document.querySelector('.burger-menu');
 const mobileMenu = document.querySelector('.mobile-menu');
@@ -80,20 +65,6 @@ burgerMenu.addEventListener('click', function() {
     this.classList.toggle('active');
     mobileMenu.classList.toggle('active');
     body.classList.toggle('menu-open');
-    
-    // Fungsi untuk menangani resize window
-function handleResize() {
-    if (window.innerWidth > 768) {
-        // Reset semua state menu saat kembali ke desktop
-        burgerMenu.classList.remove('active');
-        mobileMenu.classList.remove('active');
-        body.classList.remove('menu-open');
-        body.style.overflow = '';
-    }
-}
-
-// Tambahkan event listener untuk resize
-window.addEventListener('resize', handleResize);
 });
 
 // Close menu when clicking on a link
@@ -126,7 +97,7 @@ document.addEventListener('keydown', function(e) {
     }
 });
 
-// Tambahkan di script.js setelah kode yang ada
+// Shopping Cart Class
 class ShoppingCart {
     constructor() {
         this.cart = [];
@@ -176,12 +147,15 @@ class ShoppingCart {
         
         this.saveCart();
         this.updateCartUI();
+        this.showNotification(`${product.name} ditambahkan ke keranjang`);
+        this.cartPopup.classList.add('active');
     }
     
     removeItem(productId) {
         this.cart = this.cart.filter(item => item.id !== productId);
         this.saveCart();
         this.updateCartUI();
+        this.showNotification('Produk dihapus dari keranjang');
     }
     
     saveCart() {
@@ -206,14 +180,16 @@ class ShoppingCart {
         
         if (this.cart.length === 0) {
             this.cartItemsContainer.innerHTML = '<p class="empty-cart-message">Keranjang belanja kosong</p>';
-            this.totalPriceElement.textContent = '$0';
+            this.totalPriceElement.textContent = 'Rp 0';
             return;
         }
         
         let totalPrice = 0;
         
         this.cart.forEach(item => {
-            totalPrice += parseFloat(item.price.replace('$', '')) * item.quantity;
+            // Extract numeric value from price string
+            const priceValue = parseFloat(item.price.replace(/[^\d]/g, ''));
+            totalPrice += priceValue * item.quantity;
             
             const cartItemElement = document.createElement('div');
             cartItemElement.className = 'cart-item';
@@ -230,20 +206,58 @@ class ShoppingCart {
         });
         
         // Update total price
-        this.totalPriceElement.textContent = `$${totalPrice.toFixed(2)}`;
+        this.totalPriceElement.textContent = `Rp ${totalPrice.toLocaleString('id-ID')}`;
         
         // Add event listeners to remove buttons
-        function addProductButtonEventListeners() {
-    document.addEventListener('click', function(e) {
-        if (e.target.classList.contains('add-to-cart') || e.target.classList.contains('buy-now')) {
-            const button = e.target;
-            const productCard = button.closest('.product-card');
-            const productName = productCard.querySelector('.product-title').textContent;
-            const productPrice = productCard.querySelector('.product-price').textContent;
-            const productImage = productCard.querySelector('.product-image').src;
-            const productId = productName.toLowerCase().replace(/\s+/g, '-');
-            
-            // Tambahkan ke keranjang
+        this.cartItemsContainer.querySelectorAll('.remove-item').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const productId = button.getAttribute('data-id');
+                this.removeItem(productId);
+            });
+        });
+    }
+    
+    showNotification(message) {
+        const notification = document.createElement('div');
+        notification.className = 'notification';
+        notification.innerHTML = `
+            <i class="fas fa-check-circle"></i>
+            <span>${message}</span>
+        `;
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.classList.add('show');
+        }, 10);
+        
+        setTimeout(() => {
+            notification.classList.remove('show');
+            setTimeout(() => {
+                document.body.removeChild(notification);
+            }, 300);
+        }, 3000);
+    }
+    
+    getCart() {
+        return this.cart;
+    }
+}
+
+// Initialize shopping cart
+const cart = new ShoppingCart();
+
+// Product buttons functionality
+document.querySelectorAll('.product-actions button').forEach(button => {
+    button.addEventListener('click', function() {
+        const productCard = this.closest('.product-card');
+        const productName = productCard.querySelector('.product-title').textContent;
+        const productPrice = productCard.querySelector('.product-price').textContent;
+        const productImage = productCard.querySelector('.product-image').src;
+        const productId = productName.toLowerCase().replace(/\s+/g, '-');
+        
+        if (this.classList.contains('add-to-cart') || this.classList.contains('buy-now')) {
+            // Add to cart
             cart.addItem({
                 id: productId,
                 name: productName,
@@ -251,27 +265,31 @@ class ShoppingCart {
                 image: productImage
             });
             
-            // Tampilkan notifikasi
-            showNotification(`${productName} ditambahkan ke keranjang`);
-            
-            // Buka keranjang otomatis setelah menambahkan produk
-            document.querySelector('.cart-popup').classList.add('active');
-            
-            // Jika tombol Buy Now, arahkan ke checkout
-            if (button.classList.contains('buy-now')) {
+            // Jika tombol Buy Now, arahkan ke checkout setelah 1 detik
+            if (this.classList.contains('buy-now')) {
                 setTimeout(() => {
                     window.location.href = 'checkout.html';
-                }, 1000); // Beri jeda 1 detik sebelum redirect
+                }, 1000);
             }
         }
     });
-}
+});
+
+// Handle window resize for mobile menu
+function handleResize() {
+    if (window.innerWidth > 768) {
+        // Reset semua state menu saat kembali ke desktop
+        burgerMenu.classList.remove('active');
+        mobileMenu.classList.remove('active');
+        body.classList.remove('menu-open');
+        body.style.overflow = '';
     }
-    getCart() {
-        return this.cart;
-    }
 }
-// Tutup keranjang saat klik di luar
+
+// Tambahkan event listener untuk resize
+window.addEventListener('resize', handleResize);
+
+// Close cart when clicking outside
 document.addEventListener('click', function(e) {
     const cartPopup = document.querySelector('.cart-popup');
     const cartIcon = document.querySelector('.cart-icon-container');
@@ -282,72 +300,3 @@ document.addEventListener('click', function(e) {
         cartPopup.classList.remove('active');
     }
 });
-
-// Initialize shopping cart
-const cart = new ShoppingCart();
-
-// Update product buttons functionality to add to cart
-document.querySelectorAll('.product-actions button').forEach(button => {
-    button.addEventListener('click', function() {
-        const productCard = this.closest('.product-card');
-        const productName = productCard.querySelector('h3').textContent;
-        const productPrice = productCard.querySelector('.price').textContent;
-        const productImage = productCard.querySelector('.product-image img').src;
-        const productId = productName.toLowerCase().replace(/\s+/g, '-');
-        
-        if (this.classList.contains('buy-now')) {
-            // Add to cart
-            cart.addItem({
-                id: productId,
-                name: productName,
-                price: productPrice,
-                image: productImage
-            });
-            
-            // Show cart popup
-            document.querySelector('.cart-popup').classList.add('active');
-            
-            // Optional: Show notification
-            const notification = document.createElement('div');
-            notification.className = 'notification';
-            notification.textContent = `${productName} ditambahkan ke keranjang`;
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.classList.add('show');
-            }, 10);
-            
-            setTimeout(() => {
-                notification.classList.remove('show');
-                setTimeout(() => {
-                    document.body.removeChild(notification);
-                }, 300);
-            }, 3000);
-        } else {
-            alert(`Showing details for ${productName}`);
-        }
-    });
-});
-
-// Add notification styles
-const style = document.createElement('style');
-style.textContent = `
-    .notification {
-        position: fixed;
-        bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: rgba(138, 43, 226, 0.9);
-        color: white;
-        padding: 1rem 2rem;
-        border-radius: 5px;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-        z-index: 10000;
-    }
-    
-    .notification.show {
-        opacity: 1;
-    }
-`;
-document.head.appendChild(style);
