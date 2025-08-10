@@ -1071,3 +1071,12 @@ body {
         display: flex;
     }
 }
+/* Efek 3D Hover */
+.product-card {
+    transform-style: preserve-3d;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.product-card:hover {
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
