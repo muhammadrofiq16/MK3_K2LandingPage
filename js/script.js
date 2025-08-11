@@ -373,3 +373,20 @@ document.getElementById('quickViewPanel').addEventListener('click', (e) => {
         document.getElementById('quickViewPanel').classList.remove('active');
     }
 });
+// Fungsi Toast Notification Global
+function showToast(message, type = "success") {
+    const container = document.getElementById("toast-container");
+    const toast = document.createElement("div");
+    toast.className = `toast ${type}`;
+    toast.innerHTML = `
+        <i class="fas ${type === "success" ? "fa-check-circle" : "fa-exclamation-circle"}"></i>
+        <span>${message}</span>
+    `;
+
+    container.appendChild(toast);
+
+    // Hapus setelah animasi selesai
+    setTimeout(() => {
+        toast.remove();
+    }, 3500);
+}
