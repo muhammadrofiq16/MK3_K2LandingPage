@@ -328,3 +328,48 @@ document.querySelectorAll('.product-card').forEach(card => {
         card.style.transform = 'rotateX(0) rotateY(0) scale(1)';
     });
 });
+// Scroll to Top Button
+const scrollTopBtn = document.getElementById("scrollTopBtn");
+
+window.addEventListener("scroll", () => {
+    if (window.scrollY > 300) {
+        scrollTopBtn.style.display = "block";
+    } else {
+        scrollTopBtn.style.display = "none";
+    }
+});
+
+scrollTopBtn.addEventListener("click", () => {
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+});
+// Quick View Slide-Up
+document.querySelectorAll('.product-card').forEach(card => {
+    const quickViewBtn = document.createElement('button');
+    quickViewBtn.innerHTML = '<i class="fas fa-eye"></i> Quick View';
+    quickViewBtn.className = "quick-view-btn";
+    card.querySelector('.product-info').appendChild(quickViewBtn);
+
+    quickViewBtn.addEventListener('click', () => {
+        document.getElementById('panelImage').src = card.querySelector('.product-image').src;
+        document.getElementById('panelTitle').textContent = card.querySelector('.product-title').textContent;
+        document.getElementById('panelDescription').textContent = card.querySelector('.product-description')?.textContent || "";
+        document.getElementById('panelPrice').textContent = card.querySelector('.product-price')?.textContent || "";
+
+        document.getElementById('quickViewPanel').classList.add('active');
+    });
+});
+
+// Tutup panel
+document.querySelector('.close-panel').addEventListener('click', () => {
+    document.getElementById('quickViewPanel').classList.remove('active');
+});
+
+// Tutup panel jika klik di luar konten
+document.getElementById('quickViewPanel').addEventListener('click', (e) => {
+    if (e.target.id === 'quickViewPanel') {
+        document.getElementById('quickViewPanel').classList.remove('active');
+    }
+});
