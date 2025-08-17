@@ -1,0 +1,129 @@
+/* Background */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: radial-gradient(circle at top, #0f0c29, #302b63, #24243e);
+    color: #fff;
+}
+
+/* Container */
+.auth-container {
+    width: 380px;
+    padding: 30px;
+    background: rgba(20, 20, 35, 0.95);
+    border-radius: 20px;
+    box-shadow: 0 0 25px rgba(0, 255, 200, 0.7);
+    backdrop-filter: blur(8px);
+    transition: 0.3s ease;
+}
+
+/* Form box */
+.form-box {
+    text-align: center;
+    animation: fadeIn 0.5s ease;
+}
+
+.form-box.hidden {
+    display: none;
+}
+
+h2 {
+    margin-bottom: 20px;
+    color: #00ffc8;
+    font-size: 26px;
+    font-weight: 600;
+    text-shadow: 0 0 10px #00ffc8;
+}
+
+/* Input group */
+.input-group {
+    position: relative;
+    margin: 20px 0;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    outline: none;
+    background: transparent;
+    border-bottom: 2px solid #555;
+    color: #fff;
+    font-size: 16px;
+    transition: 0.3s ease;
+}
+
+.input-group label {
+    position: absolute;
+    left: 0;
+    top: 12px;
+    color: #aaa;
+    pointer-events: none;
+    transition: 0.3s ease;
+}
+
+.input-group input:focus,
+.input-group input:valid {
+    border-bottom: 2px solid #00ffc8;
+}
+
+.input-group input:focus~label,
+.input-group input:valid~label {
+    top: -10px;
+    font-size: 12px;
+    color: #00ffc8;
+}
+
+/* Button */
+.btn {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(90deg, #00ffc8, #0077ff);
+    border: none;
+    border-radius: 25px;
+    color: #000;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: 0.3s ease;
+}
+
+.btn:hover {
+    box-shadow: 0 0 15px #00ffc8, 0 0 25px #0077ff;
+}
+
+/* Switch */
+.switch {
+    margin-top: 15px;
+    color: #ccc;
+    font-size: 14px;
+}
+
+.switch a {
+    color: #00ffc8;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.switch a:hover {
+    text-decoration: underline;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
