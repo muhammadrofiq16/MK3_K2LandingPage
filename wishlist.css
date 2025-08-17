@@ -1,0 +1,195 @@
+/* Wishlist Grid */
+.wishlist-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Wishlist Card */
+.wishlist-card {
+    background: #1c1c3c;
+    color: #fff;
+    border-radius: 15px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(100, 255, 218, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.wishlist-card img {
+    max-width: 100%;
+    border-radius: 12px;
+}
+
+.wishlist-card button {
+    margin-top: 10px;
+    background: #64ffda;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #1c1c3c;
+    transition: background 0.3s;
+}
+
+.wishlist-card button:hover {
+    background: #50d6b5;
+}
+
+/* Celebration Messages */
+.celebration-message,
+.celebration-message-minimal {
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(28, 28, 60, 0.95);
+    color: #fff;
+    padding: 20px 30px;
+    border-radius: 15px;
+    font-size: 18px;
+    text-align: center;
+    box-shadow: 0 0 20px #64ffda;
+    z-index: 10000;
+}
+
+.celebration-buttons button,
+.celebration-buttons-minimal button {
+    margin: 5px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+    background: #64ffda;
+    color: #1c1c3c;
+}
+
+.celebration-buttons button:hover,
+.celebration-buttons-minimal button:hover {
+    background: #50d6b5;
+}
+
+/* Tombol Rahasia */
+#mode-switch-btn {
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    background: rgba(100, 255, 218, 0.8);
+    color: #1c1c3c;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 99999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease, box-shadow 0.5s ease;
+}
+
+#mode-switch-btn.visible {
+    opacity: 1;
+    pointer-events: auto;
+    box-shadow: 0 0 10px #64ffda,
+        0 0 20px #64ffda,
+        0 0 30px #64ffda;
+}
+
+#mode-switch-btn.visible:hover {
+    box-shadow: 0 0 15px #64ffda,
+        0 0 30px #64ffda,
+        0 0 45px #64ffda;
+}
+
+/* Animasi */
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    20% {
+        transform: translateX(-3px);
+    }
+
+    40% {
+        transform: translateX(3px);
+    }
+
+    60% {
+        transform: translateX(-2px);
+    }
+
+    80% {
+        transform: translateX(2px);
+    }
+}
+
+#mode-switch-btn.shake {
+    animation: shake 0.4s ease;
+}
+
+@keyframes spinIn {
+    0% {
+        transform: rotate(-180deg) scale(0);
+        opacity: 0;
+    }
+
+    60% {
+        transform: rotate(15deg) scale(1.1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: rotate(0deg) scale(1);
+        opacity: 1;
+    }
+}
+
+#mode-switch-btn.spin {
+    animation: spinIn 0.6s ease forwards;
+}
+
+/* Toast Mode */
+@keyframes slideFade {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    20% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    80% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+
+.mode-change-toast {
+    position: fixed;
+    bottom: 60px;
+    right: 15px;
+    background: rgba(100, 255, 218, 0.9);
+    color: #1c1c3c;
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+    box-shadow: 0 0 10px #64ffda;
+    animation: slideFade 2s ease forwards;
+    z-index: 99999;
+}
