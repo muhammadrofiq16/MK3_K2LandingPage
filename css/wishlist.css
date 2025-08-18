@@ -31,7 +31,7 @@
     cursor: pointer;
     font-weight: bold;
     color: #1c1c3c;
-    transition: background 0.3s;
+    transition: 0.3s;
 }
 
 .wishlist-card button:hover {

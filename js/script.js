@@ -99,6 +99,9 @@ document.addEventListener('keydown', function(e) {
 
 // Shopping Cart Class
 class ShoppingCart {
+    getCart() {
+    return this.cart;
+}
     constructor() {
         this.cart = [];
         this.cartIcon = document.querySelector('.fa-shopping-bag');
