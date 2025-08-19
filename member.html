@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iLuxury</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #0a0a0a;
+            color: white;
+            text-align: center;
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: transparent;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+        }
+
+        .hero p {
+            font-size: 1rem;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+        }
+
+        .btn {
+            padding: 12px 25px;
+            background: linear-gradient(45deg, #0072ff, #00c6ff);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            opacity: 0.8;
+            transform: scale(1.05);
+        }
+
+        /* Modal styling */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            background: #111;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+            text-align: left;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            animation: fadeIn 0.4s;
+            z-index: 1100;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 25px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: white;
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 8px;
+            background: #222;
+            color: white;
+        }
+
+        .modal-content button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(45deg, #0072ff, #00c6ff);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+
+        .modal-content button:hover {
+            opacity: 0.8;
+        }
+
+        /* Canvas Background */
+        #starCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <h1>Bergabunglah dengan Pengalaman iLuxury</h1>
+        <p>Sign up untuk akses eksklusif ke edisi terbatas, acara pribadi, dan pengalaman belanja.</p>
+        <button class="btn" id="openModal">Become a Member</button>
+    </div>
+
+    <!-- Modal -->
+    <div id="memberModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeModal">&times;</span>
+            <h2>Daftar Member iLuxury</h2>
+            <form id="signupForm">
+                <label>Nama Lengkap</label>
+                <input type="text" placeholder="Masukkan nama" required>
+                <label>Email</label>
+                <input type="email" placeholder="Masukkan email" required>
+                <label>Password</label>
+                <input type="password" placeholder="Masukkan password" required>
+                <button type="submit">Daftar Sekarang</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Canvas Background -->
+    <canvas id="starCanvas"></canvas>
+
+    <script>
+        // ===== Modal =====
+        const modal = document.getElementById("memberModal");
+        const openBtn = document.getElementById("openModal");
+        const closeBtn = document.getElementById("closeModal");
+        const signupForm = document.getElementById("signupForm");
+
+        openBtn.onclick = () => modal.style.display = "block";
+        closeBtn.onclick = () => modal.style.display = "none";
+        window.onclick = (e) => { if (e.target == modal) modal.style.display = "none"; }
+
+        // ===== Form Submission =====
+        signupForm.addEventListener('submit', function(e) {
+            e.preventDefault(); // Mencegah form submit default
+            
+            // Validasi form disini jika diperlukan
+            const inputs = this.querySelectorAll('input');
+            let isValid = true;
+            
+            inputs.forEach(input => {
+                if (!input.value.trim()) {
+                    isValid = false;
+                    input.style.border = "1px solid red";
+                } else {
+                    input.style.border = "none";
+                }
+            });
+            
+            if (isValid) {
+                // Simpan data ke localStorage (opsional)
+                const formData = {
+                    name: inputs[0].value,
+                    email: inputs[1].value
+                };
+                localStorage.setItem('userData', JSON.stringify(formData));
+                
+                // Tutup modal
+                modal.style.display = "none";
+                
+                // Pindah halaman setelah 1 detik (bisa disesuaikan)
+                setTimeout(() => {
+                    window.location.href = "index.html"; // Ganti dengan halaman tujuan
+                }, 1000);
+            }
+        });
+
+        // ===== Simple Floating Stars Background =====
+        const canvas = document.getElementById("starCanvas");
+        const ctx = canvas.getContext("2d");
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener("resize", resizeCanvas);
+
+        let stars = Array.from({ length: 80 }, () => ({
+            x: Math.random() * window.innerWidth,
+            y: Math.random() * window.innerHeight,
+            size: Math.random() * 2 + 1,
+            speed: (Math.random() * 0.5 + 0.2) * (Math.random() < 0.5 ? 1 : -1)
+        }));
+
+        function drawStars() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "white";
+
+            stars.forEach(s => {
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+                ctx.fill();
+
+                // floating effect
+                s.y += s.speed * 0.3;
+                if (s.y < 0) s.y = canvas.height;
+                if (s.y > canvas.height) s.y = 0;
+            });
+
+            requestAnimationFrame(drawStars);
+        }
+        drawStars();
+    </script>
+
+</body>
+
+</html>
